@@ -1,11 +1,11 @@
-# picojs
+# meow.js (meowing)
 
 A simple way to communicate with the Scratch API
 
 
 ## Install
 ```bash
-npm install https://github.com/pico-js/pico-js
+npm install meowing
 ```
 
 ## Example usage:
@@ -22,3 +22,6 @@ session.login().then(async () => {
   console.log(AT.topics[0].title)
 })
 ```
+
+## Credits
+Thanks to [CubeyTheCube](https://github.com/CubeyTheCube) for publishing this to npm!
