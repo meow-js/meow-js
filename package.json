@@ -2,7 +2,7 @@
   "name": "meow-js",
   "version": "0.0.1",
   "description": "A package to communicate with Scratch.",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "node test",
     "dev": "nodemon test"
