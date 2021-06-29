@@ -11,7 +11,7 @@ npm install meowing
 ## Example usage:
 
 ```javascript
-const { ScratchSession } = require("pico-js")
+const { ScratchSession } = require("meowing")
 
 let session = new ScratchSession("sus", "sussy")
 
