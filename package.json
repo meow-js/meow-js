@@ -1,5 +1,5 @@
 {
-  "name": "meow-js",
+  "name": "pico-js",
   "version": "0.0.1",
   "description": "A package to communicate with Scratch.",
   "main": "index.js",
