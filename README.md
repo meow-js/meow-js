@@ -1,17 +1,17 @@
-# meowjs
+# picojs
 
 A simple way to communicate with the Scratch API
 
 
 ## Install
 ```bash
-npm install https://github.com/meow-js/meow.js
+npm install https://github.com/pico-js/pico-js
 ```
 
 ## Example usage:
 
 ```javascript
-const { ScratchSession } = require("meow.js")
+const { ScratchSession } = require("pico-js")
 
 let session = new ScratchSession("sus", "sussy")
 
