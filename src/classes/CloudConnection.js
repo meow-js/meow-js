@@ -16,8 +16,10 @@ class CloudConnection {
   ) {
     this._client = client;
     this.projectId = projectId;
+    let cookie = provideAuthentication ? `scratchsessionsid=${client.auth.session};` : ""
     const headers = {
-      Cookie: provideAuthentication ? client.auth.cookie : "",
+      Cookie: cookie,
+      origin: "https://scratch.mit.edu"
     };
     this._ws = new WebSocket(cloudServer, {
       headers,
@@ -29,7 +31,7 @@ class CloudConnection {
         user: client.username,
         project_id: String(projectId),
       });
-      setTimeout(() => this.set(`_mjsVar${Date.now()}`, Date.now()), 100);
+      setTimeout(() => this.setVariable(`_mjsVar${Date.now()}`, Date.now()), 100);
     });
 
     let _this = this;
@@ -82,6 +84,7 @@ class CloudConnection {
       project_id: this.projectId,
     });
   }
+  variables = {}
 }
 
 module.exports = CloudConnection;
