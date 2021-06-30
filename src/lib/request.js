@@ -18,8 +18,8 @@ module.exports = (url, opts) => {
   };
 
   if (opts && opts.client) {
-    headers.Cookie = opts.client?.auth?.cookie;
-    headers["x-csrftoken"] = opts.client?.auth?.csrfToken || "a";
+    headers.Cookie = opts.client.auth.cookie;
+    headers["x-csrftoken"] = opts.client.auth.csrfToken || "a";
   }
 
   if (opts && opts.headers) {
