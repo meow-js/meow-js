@@ -2,3 +2,5 @@ test
 README.md
 jsdoc.json
 .github
+.npmrc
+LICENSE
