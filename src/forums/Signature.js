@@ -25,18 +25,23 @@ class Signature {
    * @returns {void}
    */
   async _init() {
-    isAuthenticated(this)
-    let res = await fetch(`https://scratch.mit.edu/discuss/settings/${this._client.username}/?rnd=${Math.random()}`, {
-        client: this._client
-    })
+    isAuthenticated(this);
+    let res = await fetch(
+      `https://scratch.mit.edu/discuss/settings/${
+        this._client.username
+      }/?rnd=${Math.random()}`,
+      {
+        client: this._client,
+      }
+    );
 
-    let { document } = parseHTML(await res.text())
+    let { document } = parseHTML(await res.text());
 
-    let signature = document.getElementById('id_signature')
+    let signature = document.getElementById("id_signature");
 
     this.signature = signature.innerText;
 
-    let signatureHTML = document.querySelector('.postsignature');
+    let signatureHTML = document.querySelector(".postsignature");
 
     this.signatureHTML = signatureHTML.innerHTML;
   }
@@ -44,7 +49,7 @@ class Signature {
    * The signature bbcode.
    * @type {string}
    */
-  signature = ""
+  signature = "";
 
   /**
    * The html of the signature.
@@ -66,11 +71,11 @@ class Signature {
         method: "POST",
         body: `csrfmiddlewaretoken=${this._client.auth.csrfToken}&signature=${body}&update=`,
         headers: {
-            "content-type": "application/x-www-form-urlencoded"
-        }
+          "content-type": "application/x-www-form-urlencoded",
+        },
       }
     );
-    return res.status == 200
+    return res.status == 200;
   }
 }
 

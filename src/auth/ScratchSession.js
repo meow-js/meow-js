@@ -81,8 +81,8 @@ class ScratchSession {
       auth.student = session.permissions.student;
       auth.flags = session.flags;
 
-      this.userProfile = new UserProfile(this.username)
-      await this.userProfile._init()
+      this.userProfile = new UserProfile(this.username);
+      await this.userProfile._init();
     }
   }
   async getSession() {
@@ -108,10 +108,19 @@ class ScratchSession {
     await post._init();
     return post;
   }
-  async createCloudConnection(projectId, cloudServer = undefined, provideAuthentication = true) {
-    const cloud = new CloudConnection(projectId, this, cloudServer, provideAuthentication)
+  async createCloudConnection(
+    projectId,
+    cloudServer = undefined,
+    provideAuthentication = true
+  ) {
+    const cloud = new CloudConnection(
+      projectId,
+      this,
+      cloudServer,
+      provideAuthentication
+    );
 
-    return cloud
+    return cloud;
   }
   async logout() {
     const fd = new FormData();
@@ -121,7 +130,7 @@ class ScratchSession {
     let res = await fetch(`https://scratch.mit.edu/accounts/logout/`, {
       client: this,
       headers: {
-        accept: "*/*"
+        accept: "*/*",
       },
       body: fd,
       method: "POST",

@@ -84,24 +84,24 @@ class Post {
    * @type {number}
    */
   id = 0;
-  
+
   async edit(body) {
     isAuthenticated(this);
     const data = new FormData();
     data.append("scratchcsrftoken", this._client.auth.csrfToken);
     data.append("body", body);
-    data.append("update", null)
+    data.append("update", null);
 
     let res = await fetch(
       `https://scratch.mit.edu/discuss/post/${this.id}/edit/`,
       {
         client: this._client,
         method: "POST",
-        body: data
+        body: data,
       }
     );
 
-    return res.status == 200
+    return res.status == 200;
   }
 }
 
