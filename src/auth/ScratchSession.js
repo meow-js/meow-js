@@ -9,6 +9,7 @@ const FormData = require("form-data");
 const Topic = require("../forums/Topic.js");
 const UserProfile = require("../classes/UserProfile.js");
 const CloudConnection = require("../classes/CloudConnection.js");
+const Project = require("../classes/Project.js");
 
 class ScratchSession {
   /**
@@ -107,6 +108,12 @@ class ScratchSession {
     let post = new Post(postId, this);
     await post._init();
     return post;
+  }
+  async getProject(projectId) {
+    let project = new Project(projectId, this)
+
+    await project._init()
+    return project
   }
   async createCloudConnection(
     projectId,

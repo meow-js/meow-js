@@ -5,8 +5,9 @@ class Project {
    * Creates the Project Object
    * @param {number} id
    */
-  constructor(id) {
+  constructor(id, client) {
     this.id = id;
+    this._client = client;
   }
 
   /**
@@ -24,4 +25,16 @@ class Project {
     this.commentsAllowed = comments_allowed;
     this.author = "";
   }
+
+  async setThumbnail(stream) {
+    let res = await fetch(`https://scratch.mit.edu/internalapi/project/thumbnail/${this.id}/set`, {
+      client: this._client,
+      method: "POST",
+      body: stream
+    })
+
+    return res.status !== 403
+  }
 }
+
+module.exports = Project
