@@ -20,6 +20,10 @@ session.login().then(async () => {
     "Meow.js: [b]Coming Soon[/b]..\n[small]Sent with Meow.js[/small]"
   );
 
+  let post = await session.getPost(5383798)
+
+  console.dir(post)
+
   
   console.log(await session.logout());
 });

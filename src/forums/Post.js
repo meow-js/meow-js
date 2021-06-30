@@ -67,17 +67,6 @@ class Post {
    */
   postedAt = "";
 
-  /**
-   * The bbcode of the post
-   * @type {string}
-   */
-  bb = "";
-
-  /**
-   * The html of the post
-   * @type {string}
-   */
-  html = "";
 
   /**
    * The id of the post.
