@@ -19,5 +19,7 @@ session.login().then(async () => {
   await signature.update(
     "Meow.js: [b]Coming Soon[/b]..\n[small]Sent with Meow.js[/small]"
   );
+
+  
   console.log(await session.logout());
 });

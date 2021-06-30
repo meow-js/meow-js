@@ -41,7 +41,7 @@ class Post {
       `https://scratch.mit.edu/discuss/post/${this.id}/source`
     ).then((resp) => resp.text());
 
-    let post = document.getElementById(`post-${this.id}`);
+    let post = document.querySelector(`#post-${this.id}`);
     let header = post.querySelector("header");
 
     let time = header.querySelector("time");

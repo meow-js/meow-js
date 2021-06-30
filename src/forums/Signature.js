@@ -37,7 +37,7 @@ class Signature {
 
     let { document } = parseHTML(await res.text());
 
-    let signature = document.getElementById("id_signature");
+    let signature = document.querySelector("#id_signature");
 
     this.signature = signature.innerText;
 

@@ -15,14 +15,13 @@ class Project {
    */
   async _init() {
     let res = await fetch(`https://api.scratch.mit.edu/projects/${this.id}/`);
-    let { title, description, instructions, public, comments_allowed, author } =
-      await res.json();
+    let data = await res.json();
 
-    this.title = title;
-    this.description = description;
-    this.instructions = instructions;
-    this.public = instructions;
-    this.commentsAllowed = comments_allowed;
+    this.title = data.title;
+    this.description = data.description;
+    this.instructions = data.instructions;
+    this.public = data.instructions;
+    this.commentsAllowed = data.comments_allowed;
     this.author = "";
   }
 
