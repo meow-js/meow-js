@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
  * Fetches the given URL using node-fetch
  * @param {string} url
  * @param {object} opts
- * @returns
+ * @returns {Promise}
  */
 module.exports = (url, opts) => {
   const headers = {
