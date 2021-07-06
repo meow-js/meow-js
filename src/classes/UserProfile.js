@@ -31,6 +31,15 @@ class UserProfile {
   }
 
   /**
+   * Loads the ocular status of the user.
+   * @returns {object} The ocular status object of the user.
+   */
+  async getOcularStatus() {
+    let res = await fetch(`https://my-ocular.jeffalo.net/api/user/${this.username}`)
+    return await res.json()
+  }
+
+  /**
    * The username of the user
    * @type {string}
    */

@@ -8,7 +8,7 @@ const fetch = require("node-fetch");
  */
 module.exports = (url, opts) => {
   const headers = {
-    "x-csrftoken": "a",
+    "x-csrftoken": "a", // TODO: Remove this. Recent tests show that the ST removed this
     "x-requested-with": "XMLHttpRequest",
     Cookie: "permissions=%7B%7D;scratchlanguage=en;",
     referer: "https://scratch.mit.edu/",
@@ -20,6 +20,7 @@ module.exports = (url, opts) => {
   if (opts && opts.client) {
     headers.Cookie = opts.client.auth.cookie;
     headers["x-csrftoken"] = opts.client.auth.csrfToken || "a";
+    headers["X-Token"] = opts.client.auth.xToken
   }
 
   if (opts && opts.headers) {
