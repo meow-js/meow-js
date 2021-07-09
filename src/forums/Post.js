@@ -54,7 +54,7 @@ class Post {
       bb: source,
     };
 
-    this.topic = Number(res?.url?.split("/")[6]);
+    this.topic = Number(res.url.split("/")[6]);
   }
   /**
    * The author of the post.
