@@ -51,7 +51,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - name: Update Publish Config
         run: |
-          sed -i 's^registry-url^npm.pkg.github.com/^' package.json
+          sed -i 's^registry-url^npm.pkg.github.com/@meow-js^' package.json
           cat package.json
       - run: npm ci
       - run: npm publish
