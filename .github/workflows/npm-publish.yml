@@ -49,9 +49,12 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
+          scope: "meow-js"
       - name: Update Publish Config
         run: |
           sed -i 's^registry-url^npm.pkg.github.com/@meow-js^' package.json
+          cat package.json
+          sed -i 's^meowing^@meow-js/meow-js^' package.json
           cat package.json
       - run: npm ci
       - run: npm publish
