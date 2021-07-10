@@ -29,6 +29,10 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      
+      - name: Update Publish Config
+        run: sed -i 's^registry-url^registry.npmjs.org^' package.json
+        
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
@@ -45,6 +49,11 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
+          scope: 'CubeyTheCube' # package is published under cubey
+      - name: Update Publish Config
+        run: |
+          sed -i 's^registry-url^npm.pkg.github.com/@CubeyTheCube^' package.json
+          cat package.json
       - run: npm ci
       - run: npm publish
         env:
