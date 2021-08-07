@@ -1,5 +1,8 @@
 const WebSocket = require("ws");
 
+/**
+ * A class to represent a cloud connection.
+ */
 class CloudConnection {
   /**
    *
@@ -21,15 +24,30 @@ class CloudConnection {
       Cookie: cookie,
       origin: "https://scratch.mit.edu"
     };
-    this._ws = new WebSocket(cloudServer, {
+    
+    this.cookie = cookie;
+    this.headers = headers;
+    this.cloudServer = cloudServer;
+    this._connect()
+  }
+
+  /**
+   * @private
+   */
+  _connect() {
+    const headers = {
+      Cookie: cookie,
+      origin: "https://scratch.mit.edu"
+    };
+    this._ws = new WebSocket(this.cloudServer, {
       headers,
     });
 
     this._ws.on("open", () => {
       this._send({
         method: "handshake",
-        user: client.username,
-        project_id: String(projectId),
+        user: this._client.username,
+        project_id: String(this.projectId),
       });
       setTimeout(() => this.setVariable(`_mjsVar${Date.now()}`, Date.now()), 100);
     });
@@ -46,7 +64,9 @@ class CloudConnection {
       }
     });
 
-    this._ws.on("close", () => {});
+    this._ws.on("close", () => {
+      !this.terminated && _this._connect()
+    });
 
     this._ws.on("error", (err) => {
       throw new Error("Unexpected error in cloud");
@@ -56,6 +76,7 @@ class CloudConnection {
   /**
    * Sends a packet to the server.
    * @param {object} data
+   * @private
    */
   _send(data) {
     this._ws.send(`${JSON.stringify(data)}\n`);
@@ -85,6 +106,10 @@ class CloudConnection {
     });
   }
   variables = {}
+  terminate() {
+    this.terminated = true;
+    this._ws.close(1);
+  }
 }
 
 module.exports = CloudConnection;

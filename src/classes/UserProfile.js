@@ -1,5 +1,14 @@
 const fetch = require("../lib/request.js");
 
+
+/**
+ * A class to represent a User.
+ * @property {string} username The username of the user.
+ * @property {number} id The user id of the user.
+ * @property {boolean} scratchteam A boolean that represents the user is part of the scratch team.
+ * @property {string} bio The "About me" section of a userpage.
+ * @property {string} status The WIWO of the user.
+ */
 class UserProfile {
   /**
    * Creates a UserProfile Object
@@ -13,6 +22,7 @@ class UserProfile {
 
   /**
    * Initializes the UserProfile Object
+   * @private
    */
   async _init() {
     let res = await fetch(
@@ -38,36 +48,6 @@ class UserProfile {
     let res = await fetch(`https://my-ocular.jeffalo.net/api/user/${this.username}`)
     return await res.json()
   }
-
-  /**
-   * The username of the user
-   * @type {string}
-   */
-  username = "";
-
-  /**
-   * The user id of the user
-   * @type {number}
-   */
-  id = 0;
-
-  /**
-   * If the user is a Scratch Team member or not.
-   * @type {boolean}
-   */
-  scratchTeam = false;
-
-  /**
-   * The user's "About me" section.
-   * @type {string}
-   */
-  bio = "";
-
-  /**
-   * The user's "What I'm Working On" section.
-   * @type {string}
-   */
-  status = "";
 }
 
 module.exports = UserProfile;
