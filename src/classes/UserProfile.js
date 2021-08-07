@@ -1,6 +1,5 @@
 const fetch = require("../lib/request.js");
 
-
 /**
  * A class to represent a User.
  * @property {string} username The username of the user.
@@ -45,8 +44,10 @@ class UserProfile {
    * @returns {object} The ocular status object of the user.
    */
   async getOcularStatus() {
-    let res = await fetch(`https://my-ocular.jeffalo.net/api/user/${this.username}`)
-    return await res.json()
+    let res = await fetch(
+      `https://my-ocular.jeffalo.net/api/user/${this.username}`
+    );
+    return await res.json();
   }
 }
 

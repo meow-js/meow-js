@@ -19,16 +19,18 @@ class CloudConnection {
   ) {
     this._client = client;
     this.projectId = projectId;
-    let cookie = provideAuthentication ? `scratchsessionsid=${client.auth.session};` : ""
+    let cookie = provideAuthentication
+      ? `scratchsessionsid=${client.auth.session};`
+      : "";
     const headers = {
       Cookie: cookie,
-      origin: "https://scratch.mit.edu"
+      origin: "https://scratch.mit.edu",
     };
-    
+
     this.cookie = cookie;
     this.headers = headers;
     this.cloudServer = cloudServer;
-    this._connect()
+    this._connect();
   }
 
   /**
@@ -37,7 +39,7 @@ class CloudConnection {
   _connect() {
     const headers = {
       Cookie: cookie,
-      origin: "https://scratch.mit.edu"
+      origin: "https://scratch.mit.edu",
     };
     this._ws = new WebSocket(this.cloudServer, {
       headers,
@@ -49,7 +51,10 @@ class CloudConnection {
         user: this._client.username,
         project_id: String(this.projectId),
       });
-      setTimeout(() => this.setVariable(`_mjsVar${Date.now()}`, Date.now()), 100);
+      setTimeout(
+        () => this.setVariable(`_mjsVar${Date.now()}`, Date.now()),
+        100
+      );
     });
 
     let _this = this;
@@ -65,7 +70,7 @@ class CloudConnection {
     });
 
     this._ws.on("close", () => {
-      !this.terminated && _this._connect()
+      !this.terminated && _this._connect();
     });
 
     this._ws.on("error", (err) => {
@@ -105,7 +110,7 @@ class CloudConnection {
       project_id: this.projectId,
     });
   }
-  variables = {}
+  variables = {};
   terminate() {
     this.terminated = true;
     this._ws.close(1);

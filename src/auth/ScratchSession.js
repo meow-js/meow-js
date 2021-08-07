@@ -111,15 +111,15 @@ class ScratchSession {
     return post;
   }
   async getSignature() {
-    let sig = new Signature(this)
-    await sig._init()
-    return sig
+    let sig = new Signature(this);
+    await sig._init();
+    return sig;
   }
   async getProject(projectId) {
-    let project = new Project(projectId, this)
+    let project = new Project(projectId, this);
 
-    await project._init()
-    return project
+    await project._init();
+    return project;
   }
   async createCloudConnection(
     projectId,

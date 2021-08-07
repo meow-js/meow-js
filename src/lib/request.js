@@ -20,7 +20,7 @@ module.exports = (url, opts) => {
   if (opts && opts.client) {
     headers.Cookie = opts.client.auth.cookie;
     headers["x-csrftoken"] = opts.client.auth.csrfToken || "a";
-    headers["X-Token"] = opts.client.auth.xToken
+    headers["X-Token"] = opts.client.auth.xToken;
   }
 
   if (opts && opts.headers) {

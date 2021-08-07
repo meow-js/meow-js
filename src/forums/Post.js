@@ -67,7 +67,6 @@ class Post {
    */
   postedAt = "";
 
-
   /**
    * The id of the post.
    * @type {number}

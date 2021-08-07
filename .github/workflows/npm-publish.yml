@@ -29,10 +29,10 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      
+
       - name: Update Publish Config
         run: sed -i 's^registry-url^registry.npmjs.org^' package.json
-        
+
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
