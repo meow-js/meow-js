@@ -37,12 +37,8 @@ class CloudConnection {
    * @private
    */
   _connect() {
-    const headers = {
-      Cookie: cookie,
-      origin: "https://scratch.mit.edu",
-    };
     this._ws = new WebSocket(this.cloudServer, {
-      headers,
+      headers: this.headers,
     });
 
     this._ws.on("open", () => {
