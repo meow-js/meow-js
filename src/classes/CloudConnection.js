@@ -56,6 +56,7 @@ class CloudConnection {
     let _this = this;
 
     this._ws.on("message", (e) => {
+      if (!e || typeof e !== 'string') return;
       for (let message of e.split("\n")) {
         const obj = JSON.parse(message || `{"method": "err"}`);
 
