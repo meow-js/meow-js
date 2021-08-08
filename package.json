@@ -1,13 +1,13 @@
 {
   "name": "meowing",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A package to communicate with Scratch.",
   "main": "index.js",
   "scripts": {
     "test": "node test",
     "dev": "nodemon test"
   },
-  "keywords": [],
+  "keywords": ["scratch", "scratch3", "llk", "scratch-api"],
   "author": "FunctionalMetatable",
   "license": "MIT",
   "devDependencies": {
