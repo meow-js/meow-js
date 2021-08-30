@@ -1,16 +1,17 @@
-const { FetchError } = require("node-fetch");
-const { AuthenticationError } = require("../lib/is-authenticated.js");
-const fetch = require("../lib/request.js");
-const Auth = require("./Auth.js");
-const cookie = require("cookie");
-const Forum = require("../forums/Forum.js");
-const Post = require("../forums/Post.js");
-const FormData = require("form-data");
-const Topic = require("../forums/Topic.js");
-const UserProfile = require("../classes/UserProfile.js");
-const CloudConnection = require("../classes/CloudConnection.js");
-const Project = require("../classes/Project.js");
-const Signature = require("../forums/Signature.js");
+/* eslint-disable no-underscore-dangle */
+const { FetchError } = require('node-fetch');
+const cookie = require('cookie');
+const FormData = require('form-data');
+const { AuthenticationError } = require('../lib/is-authenticated.js');
+const fetch = require('../lib/request.js');
+const Auth = require('./Auth.js');
+const Forum = require('../forums/Forum.js');
+const Post = require('../forums/Post.js');
+const Topic = require('../forums/Topic.js');
+const UserProfile = require('../classes/UserProfile.js');
+const CloudConnection = require('../classes/CloudConnection.js');
+const Project = require('../classes/Project.js');
+const Signature = require('../forums/Signature.js');
 
 class ScratchSession {
   /**
@@ -24,49 +25,48 @@ class ScratchSession {
   }
 
   async login() {
-    let csrf1Res = await fetch(`https://scratch.mit.edu/csrf_token/`, {
+    const csrf1Res = await fetch('https://scratch.mit.edu/csrf_token/', {
       headers: {
-        accept: "*/*",
+        accept: '*/*',
       },
-      referrer: "https://scratch.mit.edu/",
-      method: "GET",
+      referrer: 'https://scratch.mit.edu/',
+      method: 'GET',
     });
 
-    let initialCsrfToken = cookie.parse(
-      csrf1Res.headers.raw()["set-cookie"][1]
+    const initialCsrfToken = cookie.parse(
+      csrf1Res.headers.raw()['set-cookie'][1],
     ).scratchcsrftoken;
 
-    let res = await fetch(`https://scratch.mit.edu/accounts/login/`, {
+    const res = await fetch('https://scratch.mit.edu/accounts/login/', {
       headers: {
         Cookie: `scratchcsrftoken=${initialCsrfToken}`,
-        "x-csrftoken": initialCsrfToken,
+        'x-csrftoken': initialCsrfToken,
       },
-      method: "POST",
+      method: 'POST',
       body: {
         username: this.username,
         password: this.password,
         useMessages: true,
       },
-    }).catch((err) => {
+    }).catch(() => {
       throw new FetchError("[Meow.js]: Scratch's servers are down currently :(");
     });
 
-    if (res.status == 403)
-      throw new AuthenticationError("[Meow.js]: Invalid username/password");
+    if (res.status === 403) throw new AuthenticationError('[Meow.js]: Invalid username/password');
 
-    let json = await res.json().catch(async (err) => {
+    const json = await res.json().catch(async () => {
       throw new FetchError(
-        `[Meow.js]: Invalid JSON from scratch servers, got ${await res.text()}`
+        `[Meow.js]: Invalid JSON from scratch servers, got ${await res.text()}`,
       );
     });
 
-    if (res.ok && json[0].success == 1) {
-      var auth = new Auth();
+    if (res.ok && json[0].success === 1) {
+      const auth = new Auth();
       auth.session = cookie.parse(
-        res.headers.raw()["set-cookie"][0]
+        res.headers.raw()['set-cookie'][0],
       ).scratchsessionsid;
       auth.csrfToken = cookie.parse(
-        res.headers.raw()["set-cookie"][1]
+        res.headers.raw()['set-cookie'][1],
       ).scratchcsrftoken;
       auth.xToken = json[0].token;
       this.auth = auth;
@@ -84,69 +84,78 @@ class ScratchSession {
       auth.flags = session.flags;
 
       this.userProfile = new UserProfile(this.username);
+
       await this.userProfile._init();
     }
   }
+
   async getSession() {
-    const res = await fetch(`https://scratch.mit.edu/session/`, {
-      method: "GET",
+    const res = await fetch('https://scratch.mit.edu/session/', {
+      method: 'GET',
       client: this,
     });
 
-    return await res.json();
+    return res.json();
   }
+
   async getForum(forumId) {
-    let forum = new Forum(forumId);
+    const forum = new Forum(forumId);
     await forum._init();
     return forum;
   }
+
   async getTopic(topicId) {
-    let topic = new Topic(topicId);
+    const topic = new Topic(topicId);
     await topic._init();
     return topic;
   }
+
   async getPost(postId) {
-    let post = new Post(postId, this);
+    const post = new Post(postId, this);
     await post._init();
     return post;
   }
+
   async getSignature() {
-    let sig = new Signature(this);
+    const sig = new Signature(this);
     await sig._init();
     return sig;
   }
+
   async getProject(projectId) {
-    let project = new Project(projectId, this);
+    const project = new Project(projectId, this);
 
     await project._init();
     return project;
   }
+
   async createCloudConnection(
     projectId,
     cloudServer = undefined,
-    provideAuthentication = true
+    provideAuthentication = true,
   ) {
     const cloud = new CloudConnection(
       projectId,
       this,
       cloudServer,
-      provideAuthentication
+      provideAuthentication,
     );
 
     return cloud;
   }
+
   async logout() {
     const fd = new FormData();
 
-    fd.append("csrfmiddlewaretoken", this.auth.csrfToken);
+    fd.append('csrfmiddlewaretoken', this.auth.csrfToken);
 
-    let res = await fetch(`https://scratch.mit.edu/accounts/logout/`, {
+    const res = await fetch('https://scratch.mit.edu/accounts/logout/', {
       client: this,
       headers: {
-        accept: "*/*",
+        accept: '*/*',
       },
       body: fd,
-      method: "POST",
+      method: 'POST',
     });
 
     return res.status !== 403;
@@ -154,3 +163,4 @@ class ScratchSession {
 }
 
 module.exports = ScratchSession;
+/* eslint-enable no-underscore-dangle */

@@ -5,13 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon test"
+    "dev": "nodemon test",
+    "lint": "eslint --fix ."
   },
-  "keywords": ["scratch", "scratch3", "llk", "scratch-api"],
+  "keywords": [
+    "scratch",
+    "scratch3",
+    "llk",
+    "scratch-api"
+  ],
   "author": "FunctionalMetatable",
   "license": "MIT",
   "devDependencies": {
     "dotenv": "^10.0.0",
+    "eslint": "5.16.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.1.0"
   },
   "dependencies": {

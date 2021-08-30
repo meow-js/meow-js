@@ -9,7 +9,7 @@ class AuthenticationError extends Error {
 }
 
 module.exports = (c) => {
-  let client = c._client;
+  const client = c._client;
   if (client && client.auth && client.auth.csrfToken) {
     return true;
   }

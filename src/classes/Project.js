@@ -1,5 +1,5 @@
-const fetch = require("../lib/request.js");
-const UserProfile = require("./UserProfile.js");
+const fetch = require('../lib/request.js');
+const UserProfile = require('./UserProfile.js');
 
 /**
  * A Project.
@@ -26,8 +26,8 @@ class Project {
    * @private
    */
   async _init() {
-    let res = await fetch(`https://api.scratch.mit.edu/projects/${this.id}/`);
-    let data = await res.json();
+    const res = await fetch(`https://api.scratch.mit.edu/projects/${this.id}/`);
+    const data = await res.json();
 
     this.title = data.title;
     this.description = data.description;
@@ -44,13 +44,13 @@ class Project {
    * @returns {boolean} The result of the API request.
    */
   async setThumbnail(stream) {
-    let res = await fetch(
+    const res = await fetch(
       `https://scratch.mit.edu/internalapi/project/thumbnail/${this.id}/set`,
       {
         client: this._client,
-        method: "POST",
+        method: 'POST',
         body: stream,
-      }
+      },
     );
 
     return res.status !== 403;

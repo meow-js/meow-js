@@ -1,4 +1,4 @@
-const fetch = require("../lib/request.js");
+const fetch = require('../lib/request.js');
 
 /**
  * A class to represent a User.
@@ -24,13 +24,13 @@ class UserProfile {
    * @private
    */
   async _init() {
-    let res = await fetch(
-      `https://api.scratch.mit.edu/users/${this._username}`
+    const res = await fetch(
+      `https://api.scratch.mit.edu/users/${this._username}`,
     );
-    let json = await res.json();
+    const json = await res.json();
     this.loadedObject = json;
 
-    if (this.loadedObject.code == "NotFound") throw new Error("Invalid user");
+    if (this.loadedObject.code == 'NotFound') throw new Error('Invalid user');
 
     this.username = json.username;
     this.id = json.id;
@@ -44,8 +44,8 @@ class UserProfile {
    * @returns {object} The ocular status object of the user.
    */
   async getOcularStatus() {
-    let res = await fetch(
-      `https://my-ocular.jeffalo.net/api/user/${this.username}`
+    const res = await fetch(
+      `https://my-ocular.jeffalo.net/api/user/${this.username}`,
     );
     return await res.json();
   }

@@ -1,4 +1,4 @@
-const WebSocket = require("ws");
+const WebSocket = require('ws');
 
 /**
  * A class to represent a cloud connection.
@@ -14,22 +14,23 @@ class CloudConnection {
   constructor(
     projectId,
     client,
-    cloudServer = "wss://clouddata.scratch.mit.edu",
-    provideAuthentication = true
+    cloudServer = 'wss://clouddata.scratch.mit.edu',
+    provideAuthentication = true,
   ) {
     this._client = client;
     this.projectId = projectId;
-    let cookie = provideAuthentication
+    const cookie = provideAuthentication
       ? `scratchsessionsid=${client.auth.session};`
-      : "";
+      : '';
     const headers = {
       Cookie: cookie,
-      origin: "https://scratch.mit.edu",
+      origin: 'https://scratch.mit.edu',
     };
 
     this.cookie = cookie;
     this.headers = headers;
     this.cloudServer = cloudServer;
+    this.variables = {};
     this._connect();
   }
 
@@ -41,37 +42,37 @@ class CloudConnection {
       headers: this.headers,
     });
 
-    this._ws.on("open", () => {
+    this._ws.on('open', () => {
       this._send({
-        method: "handshake",
+        method: 'handshake',
         user: this._client.username,
         project_id: String(this.projectId),
       });
       setTimeout(
         () => this.setVariable(`_mjsVar${Date.now()}`, Date.now()),
-        100
+        100,
       );
     });
 
-    let _this = this;
+    const _this = this;
 
-    this._ws.on("message", (e) => {
+    this._ws.on('message', (e) => {
       if (!e || typeof e !== 'string') return;
-      for (let message of e.split("\n")) {
-        const obj = JSON.parse(message || `{"method": "err"}`);
+      for (const message of e.split('\n')) {
+        const obj = JSON.parse(message || '{"method": "err"}');
 
-        if (obj.method == "set") {
+        if (obj.method == 'set') {
           _this.variables[obj.name] = obj.value;
         }
       }
     });
 
-    this._ws.on("close", () => {
+    this._ws.on('close', () => {
       !this.terminated && _this._connect();
     });
 
-    this._ws.on("error", (err) => {
-      throw new Error("Unexpected error in cloud");
+    this._ws.on('error', (err) => {
+      throw new Error('Unexpected error in cloud');
     });
   }
 
@@ -89,7 +90,7 @@ class CloudConnection {
    * @param {string} variable
    */
   getVariable(variable) {
-    return this.variables["☁ " + variable];
+    return this.variables[`☁ ${variable}`];
   }
 
   /**
@@ -98,16 +99,16 @@ class CloudConnection {
    * @param {number} value
    */
   setVariable(variable, value) {
-    this.variables["☁ " + variable] = value;
+    this.variables[`☁ ${variable}`] = value;
     this._send({
       user: this._client.username,
-      method: "set",
+      method: 'set',
       name: `☁ ${variable}`,
       value: String(value),
       project_id: this.projectId,
     });
   }
-  variables = {};
+
   terminate() {
     this.terminated = true;
     this._ws.close(1);

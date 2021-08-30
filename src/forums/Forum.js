@@ -1,11 +1,12 @@
-const fetch = require("../lib/request.js");
-const parseHTML = require("../lib/parse-html.js");
-const Topic = require("./Topic.js");
+const fetch = require('../lib/request.js');
+const parseHTML = require('../lib/parse-html.js');
+const Topic = require('./Topic.js');
 
 /**
  * Represents a forum (e.g Questions about Scratch)
  * @type {Forum}
- *
+ * @property {number} page The current page number.
+ * @property {array} topics All the topics, uninitialized.
  */
 class Forum {
   /**
@@ -14,6 +15,8 @@ class Forum {
    */
   constructor(id = 31) {
     this.forumId = Number(id) || 31;
+    this.page = 0;
+    this.topics = [];
   }
 
   /**
@@ -34,25 +37,22 @@ class Forum {
 
   async loadNextPage() {
     this.page++;
-    let res = await fetch(
-      `https://scratch.mit.edu/discuss/m/${this.forumId}/?page=${this.page}`
+    const res = await fetch(
+      `https://scratch.mit.edu/discuss/m/${this.forumId}/?page=${this.page}`,
     );
-    let txt = await res.text();
-    let { window, document } = parseHTML(txt);
-    let topics = Array.from(document.querySelectorAll("ol li"));
+    const txt = await res.text();
+    const { window, document } = parseHTML(txt);
+    const topics = Array.from(document.querySelectorAll('ol li'));
 
     for (let j = 0; j < topics.length; j++) {
-      let topic = topics[j];
-      let id = Number(topic.querySelector("a").href.split("/")[4]);
-      let obj = new Topic(id);
+      const topic = topics[j];
+      const id = Number(topic.querySelector('a').href.split('/')[4]);
+      const obj = new Topic(id);
       // This topic is not loaded. It can be loaded with calling the ._init function.
 
       this.topics.push(obj);
     }
   }
-
-  page = 0;
-  topics = [];
 }
 
 module.exports = Forum;

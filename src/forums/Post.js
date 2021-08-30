@@ -1,12 +1,14 @@
-const fetch = require("../lib/request.js");
-const parseHTML = require("../lib/parse-html.js");
-const FormData = require("form-data");
-const isAuthenticated = require("../lib/is-authenticated.js");
+const FormData = require('form-data');
+const fetch = require('../lib/request.js');
+const parseHTML = require('../lib/parse-html.js');
+const isAuthenticated = require('../lib/is-authenticated.js');
 
 /**
  * Represents a forum post
  * @type {Post}
- *
+ * @property {string} author The author of the post.
+ * @property {Date} postedAt The date object represented the time that the post has been posted at.
+ * @property {number} id The id of the post.
  */
 class Post {
   /**
@@ -18,6 +20,7 @@ class Post {
     this.id = id;
     this._client = _client;
   }
+
   /**
    * Loads the post into the object.
    * @param {HTMLDocument} rawDOM
@@ -26,67 +29,51 @@ class Post {
    * @returns {void}
    */
   async _init(rawDOM, topicId = 0) {
-    var document = rawDOM || "";
-    var res = { url: `https://scratch.mit.edu/discuss/m/topic/${topicId}/` };
+    let document = rawDOM || '';
+    let res = { url: `https://scratch.mit.edu/discuss/m/topic/${topicId}/` };
     if (!rawDOM) {
       res = await fetch(`https://scratch.mit.edu/discuss/m/post/${this.id}/`);
 
-      if (res.status == 403) throw new Error("This post is deleted!");
+      if (res.status == 403) throw new Error('This post is deleted!');
 
-      let dom = parseHTML(await res.text());
+      const dom = parseHTML(await res.text());
 
       document = dom.document;
     }
-    let source = await fetch(
-      `https://scratch.mit.edu/discuss/post/${this.id}/source`
+    const source = await fetch(
+      `https://scratch.mit.edu/discuss/post/${this.id}/source`,
     ).then((resp) => resp.text());
 
-    let post = document.querySelector(`#post-${this.id}`);
-    let header = post.querySelector("header");
+    const post = document.querySelector(`#post-${this.id}`);
+    const header = post.querySelector('header');
 
-    let time = header.querySelector("time");
-    let user = header.querySelector("h1");
+    const time = header.querySelector('time');
+    const user = header.querySelector('h1');
 
-    this.postedAt = time.getAttribute("datetime");
+    this.postedAt = new Date(time.getAttribute('datetime'));
     this.author = user.innerText;
     this.content = {
-      html: post.querySelector(".post-content").innerHTML,
+      html: post.querySelector('.post-content').innerHTML,
       bb: source,
     };
 
-    this.topic = Number(res.url.split("/")[6]);
+    this.topic = Number(res.url.split('/')[6]);
   }
-  /**
-   * The author of the post.
-   * @type {string}
-   */
-  author = "";
-  /**
-   * The time the post was created.
-   * @type {string}
-   */
-  postedAt = "";
-
-  /**
-   * The id of the post.
-   * @type {number}
-   */
-  id = 0;
 
   async edit(body) {
     isAuthenticated(this);
     const data = new FormData();
-    data.append("scratchcsrftoken", this._client.auth.csrfToken);
-    data.append("body", body);
-    data.append("update", null);
+    data.append('scratchcsrftoken', this._client.auth.csrfToken);
+    data.append('body', body);
+    data.append('update', null);
 
-    let res = await fetch(
+    const res = await fetch(
       `https://scratch.mit.edu/discuss/post/${this.id}/edit/`,
       {
         client: this._client,
-        method: "POST",
+        method: 'POST',
         body: data,
-      }
+      },
     );
 
     return res.status == 200;
