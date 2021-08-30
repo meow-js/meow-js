@@ -48,15 +48,15 @@ class ScratchSession {
         useMessages: true,
       },
     }).catch((err) => {
-      throw new FetchError("Scratch's servers are down currently :(");
+      throw new FetchError("[Meow.js]: Scratch's servers are down currently :(");
     });
 
     if (res.status == 403)
-      throw new AuthenticationError("Invalid username/password");
+      throw new AuthenticationError("[Meow.js]: Invalid username/password");
 
     let json = await res.json().catch(async (err) => {
       throw new FetchError(
-        `Invalid JSON from scratch servers, got ${await res.text()}`
+        `[Meow.js]: Invalid JSON from scratch servers, got ${await res.text()}`
       );
     });
 

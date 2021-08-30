@@ -4,14 +4,15 @@
   "description": "A package to communicate with Scratch.",
   "main": "index.js",
   "scripts": {
-    "test": "node test",
+    "test": "jest",
     "dev": "nodemon test"
   },
   "keywords": [],
   "author": "FunctionalMetatable",
   "license": "MIT",
   "devDependencies": {
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "jest": "^27.1.0"
   },
   "dependencies": {
     "cookie": "^0.4.1",
