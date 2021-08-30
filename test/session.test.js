@@ -9,7 +9,5 @@ const session = new ScratchSession(process.env.TEST_SCRATCH_USERNAME, process.en
 test("the login was successful", () => {
     session.login().then(res => {
         expect(res).toBe(undefined)
-    }).catch(err => {
-        expect(err.toString()).toMatch('[Meow.js]:')
     })
 })

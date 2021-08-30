@@ -22,6 +22,8 @@ jobs:
         run: yarn test
         env:
           IS_GITHUB: "yes"
+          TEST_SCRATCH_USERNAME: ${{ env.TEST_SCRATCH_USERNAME }}
+          TEST_SCRATCH_PASSWORD: ${{ env.TEST_SCRATCH_PASSWORD }}
 
       - name: Output lcov report
         uses: peaceiris/actions-gh-pages@v3.8.0
