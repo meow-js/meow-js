@@ -37,12 +37,8 @@ class CloudConnection {
    * @private
    */
   _connect() {
-    const headers = {
-      Cookie: cookie,
-      origin: "https://scratch.mit.edu",
-    };
     this._ws = new WebSocket(this.cloudServer, {
-      headers,
+      headers: this.headers,
     });
 
     this._ws.on("open", () => {
@@ -60,6 +56,7 @@ class CloudConnection {
     let _this = this;
 
     this._ws.on("message", (e) => {
+      if (!e || typeof e !== 'string') return;
       for (let message of e.split("\n")) {
         const obj = JSON.parse(message || `{"method": "err"}`);
 
