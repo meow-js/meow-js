@@ -1,5 +1,4 @@
 test
-*.md
 jsdoc.json
 .github
 .npmrc

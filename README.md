@@ -1,4 +1,5 @@
-# meow.js (meowing)
+> This package is not maintained a lot these days. I might come back to this later, not sure yet. Comment on [my scratch profile](https://scratch.mit.edu/users/Verixion) to tell me if you use this or not.
+# meow.js
 
 A simple way to communicate with the Scratch API
 
