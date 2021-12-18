@@ -1,6 +1,6 @@
 {
   "name": "meowing",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A package to communicate with Scratch.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "dependencies": {
     "cookie": "^0.4.1",
     "form-data": "^4.0.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "2.6.1",
     "node-html-parser": "^3.3.6",
     "ws": "^7.5.1"
   },
